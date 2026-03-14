@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — GameGalaxy Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="/img/image1.png" alt="GameGalaxy" style="height:38px;width:150px;object-fit:cover;border-radius:8px;border:1px solid rgba(0,180,255,0.2)" onerror="this.style.display='none'">
+      <div style="margin-top:6px"><br><span style="font-size:9px;letter-spacing:2px;color:var(--text-muted)">PANEL ADMIN</span></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Principal</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        </li>
+      </ul>
+
+      <div class="sidebar-section">Catálogo</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="juegos.html"><i class="bi bi-controller"></i> Videojuegos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="colecciones.html"><i class="bi bi-collection"></i> Colecciones</a>
+        </li>
+      </ul>
+
+      <div class="sidebar-section">Ventas</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="ventas.html"><i class="bi bi-bag-check"></i> Historial</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ventas.html#stats"><i class="bi bi-bar-chart"></i> Estadísticas</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div style="padding:16px;border-top:1px solid var(--border-accent)">
+      <div id="adminName" style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px"></div>
+      <button onclick="Auth.logout()" class="btn-gg-danger w-100" style="padding:8px">
+        <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="admin-content">
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="text-gradient-blue" style="font-size:22px">Dashboard</h1>
+        <p style="color:var(--text-muted);font-size:14px;margin:0">Vista general de la plataforma</p>
+      </div>
+      <div id="dateDisplay" style="color:var(--text-muted);font-size:13px"></div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="row g-4 mb-4">
+      <div class="col-xl-2 col-lg-4 col-sm-6">
+        <div class="stat-card blue">
+          <div class="stat-icon">🎮</div>
+          <div class="stat-value text-gradient-blue" id="statGames">0</div>
+          <div class="stat-label">Videojuegos</div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-sm-6">
+        <div class="stat-card purple">
+          <div class="stat-icon">📦</div>
+          <div class="stat-value" style="background:linear-gradient(135deg,#7b2fff,#c553ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="statCollections">0</div>
+          <div class="stat-label">Colecciones</div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-sm-6">
+        <div class="stat-card green">
+          <div class="stat-icon">👤</div>
+          <div class="stat-value" style="color:var(--success)" id="statUsers">0</div>
+          <div class="stat-label">Usuarios</div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-sm-6">
+        <div class="stat-card orange">
+          <div class="stat-icon">🛒</div>
+          <div class="stat-value text-gradient-orange" id="statSales">0</div>
+          <div class="stat-label">Ventas</div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-8">
+        <div class="stat-card orange" style="display:flex;align-items:center;gap:20px">
+          <div style="font-size:48px">💰</div>
+          <div>
+            <div class="stat-value text-gradient-orange" id="statRevenue">$0.00</div>
+            <div class="stat-label">Ingresos Totales</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="row g-3 mb-4">
+      <div class="col-12">
+        <div class="bg-card-gg">
+          <h5 class="section-title" style="font-size:14px;margin-bottom:16px">Acciones Rápidas</h5>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="juegos.html" class="btn-gg-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+              <i class="bi bi-plus-circle"></i> Agregar Juego
+            </a>
+            <a href="colecciones.html" class="btn-gg-secondary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+              <i class="bi bi-collection"></i> Nueva Colección
+            </a>
+            <a href="ventas.html" class="btn-gg-orange" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+              <i class="bi bi-graph-up"></i> Ver Ventas
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANELS -->
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="bg-card-gg h-100">
+          <h5 class="section-title" style="font-size:15px;margin-bottom:16px">🏆 Juegos Más Vendidos</h5>
+          <div id="topGames">
+            <p class="text-center" style="color:var(--text-muted);font-size:13px;padding:20px 0">Sin datos de ventas aún</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="bg-card-gg h-100">
+          <h5 class="section-title" style="font-size:15px;margin-bottom:16px">⚠️ Stock Bajo</h5>
+          <div id="lowStock"></div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="bg-card-gg">
+          <h5 class="section-title" style="font-size:15px;margin-bottom:16px">🕒 Ventas Recientes</h5>
+          <div class="table-wrapper">
+            <table class="table-gg">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Ítems</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody id="recentSales">
+                <tr><td colspan="4" class="text-center py-4" style="color:var(--text-muted)">Sin ventas aún</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+  const admin = Auth.requireAdmin();
+  if (admin) {
+    document.getElementById('adminName').textContent = '👤 ' + admin.name;
+    document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    Admin.loadDashboard();
+  }
+</script>
+</body>
+</html>

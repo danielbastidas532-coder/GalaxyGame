@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colecciones — GameGalaxy Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .game-checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.02);
+    }
+    .game-checkbox-item:hover { border-color: var(--accent-blue); background: rgba(0,180,255,0.05); }
+    .game-checkbox-item.selected { border-color: var(--accent-orange); background: rgba(255,140,0,0.07); }
+    .game-checkbox-item input[type="checkbox"] { accent-color: var(--accent-orange); width: 16px; height: 16px; flex-shrink: 0; }
+    .game-checkbox-item img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .games-selector { max-height: 320px; overflow-y: auto; padding: 4px; }
+    .games-selector::-webkit-scrollbar { width: 4px; }
+    .games-selector::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 2px; }
+    .selected-count { font-size: 12px; color: var(--accent-orange); font-weight: 700; margin-top: 6px; }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="/img/image1.png" alt="GameGalaxy" style="height:38px;width:150px;object-fit:cover;border-radius:8px;border:1px solid rgba(0,180,255,0.2)">
+      <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:2px;color:var(--text-muted);margin-top:4px">PANEL ADMIN</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Principal</div>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+      </ul>
+      <div class="sidebar-section">Catálogo</div>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="juegos.html"><i class="bi bi-controller"></i> Videojuegos</a></li>
+        <li class="nav-item"><a class="nav-link active" href="colecciones.html"><i class="bi bi-collection"></i> Colecciones</a></li>
+      </ul>
+      <div class="sidebar-section">Ventas</div>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="ventas.html"><i class="bi bi-bag-check"></i> Historial</a></li>
+      </ul>
+    </nav>
+    <div style="padding:16px;border-top:1px solid var(--border-accent)">
+      <div id="adminName" style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px"></div>
+      <button onclick="Auth.logout()" class="btn-gg-danger w-100" style="padding:8px"><i class="bi bi-box-arrow-right me-2"></i> Salir</button>
+    </div>
+  </aside>
+
+  <main class="admin-content">
+    <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h1 class="text-gradient-orange" style="font-size:22px">Colecciones</h1>
+        <p style="color:var(--text-muted);font-size:14px;margin:0">Packs y playlists de videojuegos</p>
+      </div>
+      <button class="btn-gg-orange" onclick="ColAdmin.openAdd()">
+        <i class="bi bi-plus-circle me-2"></i> Nueva Colección
+      </button>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="table-gg">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Colección</th>
+            <th>Género</th>
+            <th>Juegos</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="collectionsTableBody">
+          <tr><td colspan="6" class="text-center py-4" style="color:var(--text-muted)">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade modal-gg" id="colModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="colModalTitle">Nueva Colección</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-gg" id="colForm">
+          <input type="hidden" id="colIdField">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label">Nombre de la colección *</label>
+              <input type="text" class="form-control" id="colName" placeholder="Pack Aventura Épica..." required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Precio del pack ($) *</label>
+              <input type="number" class="form-control" id="colPrice" placeholder="89.99" step="0.01" min="0" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Género *</label>
+              <input type="text" class="form-control" id="colGenre" placeholder="Aventura, Acción..." required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">URL de imagen</label>
+              <input type="url" class="form-control" id="colImage" placeholder="https://...">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Descripción *</label>
+              <textarea class="form-control" id="colDescription" rows="2" placeholder="Describe la colección..." required></textarea>
+            </div>
+
+            <!-- GAME SELECTOR -->
+            <div class="col-12">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label" style="margin:0">Videojuegos incluidos</label>
+                <div class="d-flex gap-2">
+                  <input type="text" id="gameSearchFilter" class="form-control form-control-sm"
+                         placeholder="Filtrar juegos..." oninput="ColAdmin.filterGameList(this.value)"
+                         style="width:180px">
+                </div>
+              </div>
+              <div class="selected-count" id="selectedCount">0 juegos seleccionados</div>
+              <div class="games-selector mt-2" id="gamesSelector"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div style="flex:1;font-size:12px;color:var(--text-muted)">
+          <i class="bi bi-info-circle me-1"></i> Selecciona los juegos con el checkbox
+        </div>
+        <button type="button" class="btn-gg-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn-gg-orange" onclick="ColAdmin.save()">
+          <i class="bi bi-check-circle me-1"></i> Guardar Colección
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+const ColAdmin = {
+  currentSearch: '',
+  selectedGames: new Set(),
+
+  init() {
+    this.renderTable();
+  },
+
+  renderTable() {
+    const cols = Storage.getCollections();
+    const el = document.getElementById('collectionsTableBody');
+    if (!el) return;
+
+    if (cols.length === 0) {
+      el.innerHTML = `<tr><td colspan="6" class="text-center py-5" style="color:var(--text-muted)">
+        <i class="bi bi-collection" style="font-size:40px;display:block;margin-bottom:8px;opacity:0.3"></i>
+        No hay colecciones registradas</td></tr>`;
+      return;
+    }
+
+    el.innerHTML = cols.map(c => {
+      const shortId = c.id.split('_')[1] || c.id;
+      const gameNames = (c.games || []).map(gid => {
+        const g = Storage.getGameById(gid);
+        return g ? g.title : null;
+      }).filter(Boolean);
+
+      return `
+        <tr>
+          <td>
+            <span style="font-family:'Orbitron',monospace;font-size:13px;color:var(--accent-orange)">#${shortId}</span>
+          </td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <img src="${c.image}" onerror="this.style.display='none'"
+                   style="width:40px;height:40px;object-fit:cover;border-radius:6px">
+              <span style="font-weight:600">${c.name}</span>
+            </div>
+          </td>
+          <td><span class="badge-genre">${c.genre}</span></td>
+          <td>
+            <span style="font-weight:700;color:var(--accent-blue)">${(c.games||[]).length}</span>
+            <span style="color:var(--text-muted);font-size:12px"> juegos</span>
+            ${gameNames.length > 0 ? `<div style="font-size:11px;color:var(--text-muted);margin-top:2px">${gameNames.slice(0,2).join(', ')}${gameNames.length>2?' +más':''}</div>` : ''}
+          </td>
+          <td><span style="font-family:'Orbitron',monospace;color:var(--accent-orange)">${formatPrice(c.price)}</span></td>
+          <td>
+            <div class="d-flex gap-2">
+              <button class="btn-gg-secondary" onclick="ColAdmin.openEdit('${c.id}')" style="padding:5px 12px;font-size:12px">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-gg-danger" onclick="ColAdmin.delete('${c.id}')" style="padding:5px 12px;font-size:12px">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+  },
+
+  buildGameSelector(selectedIds = []) {
+    this.selectedGames = new Set(selectedIds);
+    this.renderGameList('');
+  },
+
+  filterGameList(term) {
+    this.currentSearch = term;
+    this.renderGameList(term);
+  },
+
+  renderGameList(search) {
+    const games = Storage.getGames();
+    const filtered = search
+      ? games.filter(g =>
+          g.title.toLowerCase().includes(search.toLowerCase()) ||
+          g.genre.toLowerCase().includes(search.toLowerCase()) ||
+          g.platform.toLowerCase().includes(search.toLowerCase()))
+      : games;
+
+    const el = document.getElementById('gamesSelector');
+    if (!el) return;
+
+    if (filtered.length === 0) {
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:13px;text-align:center;padding:20px">Sin juegos encontrados</p>';
+      return;
+    }
+
+    el.innerHTML = filtered.map(g => {
+      const isSelected = this.selectedGames.has(g.id);
+      const shortId = g.id.split('_')[1] || g.id;
+      return `
+        <label class="game-checkbox-item ${isSelected ? 'selected' : ''}" onclick="ColAdmin.toggleGame('${g.id}', this)">
+          <input type="checkbox" ${isSelected ? 'checked' : ''} onchange="ColAdmin.toggleGame('${g.id}', this.closest('.game-checkbox-item'))" onclick="event.stopPropagation()">
+          <img src="${g.image}" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${g.title}</div>
+            <div style="font-size:11px;color:var(--text-muted)">${g.genre} · ${g.platform} · Stock: ${g.stock}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--accent-orange)">${formatPrice(g.price)}</div>
+            <div style="font-size:10px;color:var(--text-muted)">#${shortId}</div>
+          </div>
+        </label>`;
+    }).join('');
+  },
+
+  toggleGame(id, el) {
+    if (this.selectedGames.has(id)) {
+      this.selectedGames.delete(id);
+      el.classList.remove('selected');
+      el.querySelector('input[type="checkbox"]').checked = false;
+    } else {
+      this.selectedGames.add(id);
+      el.classList.add('selected');
+      el.querySelector('input[type="checkbox"]').checked = true;
+    }
+    this.updateSelectedCount();
+  },
+
+  updateSelectedCount() {
+    const el = document.getElementById('selectedCount');
+    if (el) el.textContent = `${this.selectedGames.size} juego(s) seleccionado(s)`;
+  },
+
+  openAdd() {
+    document.getElementById('colModalTitle').textContent = 'Nueva Colección';
+    document.getElementById('colForm').reset();
+    document.getElementById('colIdField').value = '';
+    document.getElementById('gameSearchFilter').value = '';
+    this.buildGameSelector([]);
+    this.updateSelectedCount();
+    new bootstrap.Modal(document.getElementById('colModal')).show();
+  },
+
+  openEdit(id) {
+    const col = Storage.getCollectionById(id);
+    if (!col) return;
+
+    document.getElementById('colModalTitle').textContent = 'Editar Colección';
+    document.getElementById('colIdField').value = col.id;
+    document.getElementById('colName').value = col.name;
+    document.getElementById('colDescription').value = col.description;
+    document.getElementById('colGenre').value = col.genre;
+    document.getElementById('colImage').value = col.image || '';
+    document.getElementById('colPrice').value = col.price || '';
+    document.getElementById('gameSearchFilter').value = '';
+
+    this.buildGameSelector(col.games || []);
+    this.updateSelectedCount();
+    new bootstrap.Modal(document.getElementById('colModal')).show();
+  },
+
+  save() {
+    const id = document.getElementById('colIdField').value;
+    const name = document.getElementById('colName').value.trim();
+    const description = document.getElementById('colDescription').value.trim();
+    const genre = document.getElementById('colGenre').value.trim();
+    const image = document.getElementById('colImage').value.trim();
+    const price = parseFloat(document.getElementById('colPrice').value);
+
+    if (!name || !description || !genre || isNaN(price)) {
+      showToast('Completa todos los campos obligatorios.', 'error');
+      return;
+    }
+
+    const games = [...this.selectedGames];
+    const data = { name, description, genre, image, price, games };
+
+    if (id) {
+      Storage.updateCollection(id, data);
+      showToast('Colección actualizada.', 'success');
+    } else {
+      Storage.addCollection({ id: Storage.generateId('col'), ...data });
+      showToast('Colección creada.', 'success');
+    }
+
+    bootstrap.Modal.getInstance(document.getElementById('colModal')).hide();
+    this.renderTable();
+  },
+
+  delete(id) {
+    if (!confirm('¿Eliminar esta colección?')) return;
+    Storage.deleteCollection(id);
+    showToast('Colección eliminada.', 'success');
+    this.renderTable();
+  }
+};
+
+// Init
+const admin = Auth.requireAdmin();
+if (admin) {
+  document.getElementById('adminName').textContent = '👤 ' + admin.name;
+  ColAdmin.init();
+}
+</script>
+</body>
+</html>

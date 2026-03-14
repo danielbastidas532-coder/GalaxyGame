@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda — GameGalaxy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar-gg navbar navbar-expand-lg">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="/usuario/tienda.html">
+      <img src="/img/image1.png" class="brand-logo" alt="GameGalaxy" onerror="this.style.display='none'">
+      <!-- <span style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--text-primary);margin-left:8px">GameGalaxy</span> -->
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" style="color:var(--text-primary)">
+      <i class="bi bi-list" style="font-size:24px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto gap-1">
+        <li class="nav-item"><a class="nav-link active" href="tienda.html">Tienda</a></li>
+        <li class="nav-item"><a class="nav-link" href="#collections">Colecciones</a></li>
+        <li class="nav-item"><a class="nav-link" href="#recommendations">Recomendados</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <span id="userGreeting" style="color:var(--text-secondary);font-size:13px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+        <a href="carrito.html" style="color:var(--text-primary);position:relative;text-decoration:none;padding:4px">
+          <i class="bi bi-cart3" style="font-size:22px"></i>
+          <span class="cart-count" id="cartCount" style="display:none">0</span>
+        </a>
+        <button onclick="Auth.logout()" class="btn-gg-danger" style="padding:7px 14px;font-size:12px">
+          <i class="bi bi-box-arrow-right me-1"></i><span class="d-none d-md-inline">Salir</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO BAR -->
+<div style="background:linear-gradient(135deg,rgba(0,180,255,0.06),rgba(123,47,255,0.06));
+            border-bottom:1px solid var(--border-accent);padding:28px 24px;position:relative;z-index:1">
+  <div class="container-fluid px-4">
+    <div class="row align-items-center g-3">
+      <div class="col-lg-7">
+        <h1 style="font-family:'Orbitron',monospace;font-size:clamp(18px,3vw,28px);font-weight:900;margin-bottom:4px">
+          Catálogo <span class="text-gradient-blue">GameGalaxy</span>
+        </h1>
+        <p style="color:var(--text-secondary);font-size:14px;margin:0">
+          <span id="totalGamesCount" class="text-gradient-orange" style="font-weight:700"></span> títulos disponibles · Haz clic en cualquier juego para ver detalles
+        </p>
+      </div>
+      <div class="col-lg-5">
+        <div class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <input type="text" class="form-control" placeholder="Buscar juegos, géneros..." oninput="Tienda.search(this.value)" style="padding-left:44px">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid px-4 py-4" style="position:relative;z-index:1">
+
+  <!-- FILTERS -->
+  <div class="mb-4">
+    <div style="margin-bottom:6px;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Plataforma</div>
+    <div id="platformFilters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"></div>
+    <div style="margin-bottom:6px;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Género</div>
+    <div id="genreFilters" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+  </div>
+
+  <!-- GAMES GRID -->
+  <h2 class="section-title" style="font-size:17px;margin-bottom:20px">🎮 Videojuegos</h2>
+  <div class="row g-4 mb-5" id="gamesGrid">
+    <div class="col-12 text-center py-5"><span style="color:var(--text-muted)">Cargando juegos...</span></div>
+  </div>
+
+  <!-- COLLECTIONS -->
+  <div id="collections">
+    <h2 class="section-title" style="font-size:17px;margin-bottom:20px">📦 Packs y Colecciones</h2>
+    <div class="row g-4 mb-5" id="collectionsGrid"></div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div id="recommendations">
+    <h2 class="section-title" style="font-size:17px;margin-bottom:6px">⭐ Recomendaciones</h2>
+    <p id="recommendationTitle" style="color:var(--text-secondary);font-size:13px;margin-bottom:20px"></p>
+    <div class="row g-4" id="recommendationsGrid"></div>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--border-accent);padding:24px;margin-top:40px;position:relative;z-index:1;text-align:center">
+  <p style="color:var(--text-muted);font-size:13px;margin:0">© 2025 GameGalaxy — Tu universo gamer</p>
+</footer>
+
+<!-- ===== MODAL: GAME DETAIL ===== -->
+<div class="modal fade modal-gg" id="gameDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom:1px solid var(--border-accent)">
+        <div>
+          <h5 class="modal-title" id="modalGameTitle" style="font-size:17px;margin-bottom:2px"></h5>
+          <span id="modalGameId" style="font-size:11px;color:var(--accent-blue);font-family:'Orbitron',monospace"></span>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:0">
+        <div class="row g-0">
+          <!-- Image -->
+          <div class="col-md-5" style="background:var(--bg-secondary)">
+            <img id="modalGameImg" src="" alt="Game" 
+                 style="width:100%;height:280px;object-fit:cover;display:block">
+          </div>
+          <!-- Info -->
+          <div class="col-md-7" style="padding:24px">
+            <!-- Badges -->
+            <div class="d-flex gap-2 flex-wrap mb-3">
+              <div id="modalGameGenre"></div>
+              <div id="modalGamePlatform"></div>
+            </div>
+
+            <!-- Description -->
+            <p id="modalGameDescription" style="color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:20px"></p>
+
+            <!-- Details grid -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+              <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-accent);border-radius:8px;padding:12px">
+                <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Precio</div>
+                <div id="modalGamePrice" class="game-price" style="font-size:22px"></div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-accent);border-radius:8px;padding:12px">
+                <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Stock</div>
+                <div id="modalGameStock"></div>
+              </div>
+            </div>
+
+            <!-- Cart info -->
+            <div id="modalCartInfo" style="font-size:12px;color:var(--accent-blue);margin-bottom:12px"></div>
+
+            <!-- Qty selector -->
+            <div id="modalQtyWrapper" style="display:none;align-items:center;gap:10px;margin-bottom:16px">
+              <label style="font-size:13px;color:var(--text-secondary);font-weight:600;white-space:nowrap">Cantidad:</label>
+              <input type="number" id="modalQty" value="1" min="1"
+                     style="width:70px;background:rgba(255,255,255,0.05);border:1px solid var(--border-accent);
+                            color:var(--text-primary);border-radius:8px;padding:8px;text-align:center;font-family:'Orbitron',monospace">
+              <span id="modalQtyMax" style="font-size:12px;color:var(--text-muted)"></span>
+            </div>
+
+            <!-- Add button -->
+            <button id="modalAddBtn" class="btn-gg-primary w-100" style="padding:13px;font-size:14px">
+              <i class="bi bi-cart-plus me-2"></i> Añadir al carrito
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: COLLECTION DETAIL ===== -->
+<div class="modal fade modal-gg" id="colDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title" id="modalColTitle" style="font-size:17px;margin-bottom:2px"></h5>
+          <span id="modalColId" style="font-size:11px;color:var(--accent-orange);font-family:'Orbitron',monospace"></span>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <img id="modalColImg" src="" alt="Collection"
+             style="width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:16px;display:block">
+
+        <div class="d-flex gap-2 flex-wrap mb-3">
+          <div id="modalColGenre"></div>
+          <span style="font-family:'Orbitron',monospace;font-size:20px;color:var(--accent-orange)" id="modalColPrice"></span>
+        </div>
+
+        <p id="modalColDescription" style="color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:20px"></p>
+
+        <h6 style="font-family:'Orbitron',monospace;font-size:13px;margin-bottom:12px;color:var(--accent-blue)">
+          🎮 Juegos incluidos en este pack:
+        </h6>
+        <div id="modalColGames" style="max-height:260px;overflow-y:auto;padding-right:4px"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-gg-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button id="modalColAddBtn" class="btn-gg-orange" style="padding:10px 24px">
+          <i class="bi bi-bag-plus me-2"></i> Agregar Pack al Carrito
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/tienda.js"></script>
+<script>
+  const user = Auth.requireUser();
+  if (user) {
+    document.getElementById('userGreeting').textContent = '👤 ' + user.name;
+
+    // Update cart count
+    const cart = Storage.getCart();
+    const total = cart.reduce((sum, i) => sum + (i.qty || 1), 0);
+    const countEl = document.getElementById('cartCount');
+    if (total > 0) { countEl.style.display = 'flex'; countEl.textContent = total; }
+
+    // Total games count
+    const games = Storage.getGames();
+    const countSpan = document.getElementById('totalGamesCount');
+    if (countSpan) countSpan.textContent = games.length;
+
+    Tienda.init();
+  }
+</script>
+</body>
+</html>

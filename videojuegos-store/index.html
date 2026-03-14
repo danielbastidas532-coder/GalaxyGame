@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameGalaxy — Tu Universo Gamer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar-gg navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="img/image1.png" class="brand-logo" alt="GameGalaxy" onerror="this.style.display='none'">
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+            style="color:var(--text-primary)">
+      <i class="bi bi-list" style="font-size:24px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="usuario/tienda.html">Tienda</a></li>
+        <li class="nav-item"><a class="nav-link" href="login-user.html">Iniciar Sesión</a></li>
+        <li class="nav-item">
+          <a class="btn-gg-primary ms-2" href="register-user.html" style="display:inline-flex;align-items:center;text-decoration:none;padding:8px 20px">
+            <i class="bi bi-person-plus me-1"></i> Registrarse
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-section position-relative" style="z-index:1">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <span style="background:rgba(0,180,255,0.1);border:1px solid rgba(0,180,255,0.3);color:var(--accent-blue);
+                       padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:1px">
+            NUEVA TEMPORADA DE JUEGOS
+          </span>
+        </div>
+        <h1 class="hero-title">
+          Tu <span class="text-gradient-blue">Universo</span><br>
+          <span class="text-gradient-orange">Gamer</span> Comienza<br>Aquí
+        </h1>
+        <p class="hero-subtitle">
+          Los mejores videojuegos para PlayStation, Xbox, Nintendo y PC. 
+          Descubre títulos épicos, packs exclusivos y recomendaciones personalizadas.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="usuario/tienda.html" class="btn-gg-primary" style="font-size:15px;padding:14px 32px;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+            <i class="bi bi-controller"></i> Ver Tienda
+          </a>
+          <a href="register-user.html" class="btn-gg-secondary" style="font-size:15px;padding:14px 32px;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+            <i class="bi bi-person-plus"></i> Crear Cuenta
+          </a>
+        </div>
+        <div class="d-flex gap-4 mt-5" style="flex-wrap:wrap">
+          <div>
+            <div style="font-family:'Orbitron',monospace;font-size:28px;font-weight:700" class="text-gradient-orange">4+ generos</div>
+            <div style="color:var(--text-muted);font-size:13px">Juegos disponibles</div>
+          </div>
+          <div style="width:1px;background:var(--border-accent)"></div>
+          <div>
+            <div style="font-family:'Orbitron',monospace;font-size:28px;font-weight:700" class="text-gradient-blue">4</div>
+            <div style="color:var(--text-muted);font-size:13px">Plataformas</div>
+          </div>
+          <div style="width:1px;background:var(--border-accent)"></div>
+          <div>
+            <div style="font-family:'Orbitron',monospace;font-size:28px;font-weight:700" class="text-gradient-orange">24/7</div>
+            <div style="color:var(--text-muted);font-size:13px">Disponibilidad</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center mt-5 mt-lg-0">
+        <img src="/img/logo.png" class="hero-logo" alt="GameGalaxy"
+             onerror="this.style.display='none'">
+        <!-- Floating game cards decoration -->
+        <div style="position:relative;margin-top:-20px">
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <div style="background:var(--bg-card);border:1px solid var(--border-accent);border-radius:12px;padding:12px 20px;
+                        display:flex;align-items:center;gap:8px;animation:float 5s ease-in-out infinite">
+              <span style="font-size:24px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-playstation" viewBox="0 0 16 16">
+  <path d="M15.858 11.451c-.313.395-1.079.676-1.079.676l-5.696 2.046v-1.509l4.192-1.493c.476-.17.549-.412.162-.538-.386-.127-1.085-.09-1.56.08l-2.794.984v-1.566l.161-.054s.807-.286 1.942-.412c1.135-.125 2.525.017 3.616.43 1.23.39 1.368.962 1.056 1.356M9.625 8.883v-3.86c0-.453-.083-.87-.508-.988-.326-.105-.528.198-.528.65v9.664l-2.606-.827V2c1.108.206 2.722.692 3.59.985 2.207.757 2.955 1.7 2.955 3.825 0 2.071-1.278 2.856-2.903 2.072Zm-8.424 3.625C-.061 12.15-.271 11.41.304 10.984c.532-.394 1.436-.69 1.436-.69l3.737-1.33v1.515l-2.69.963c-.474.17-.547.411-.161.538.386.126 1.085.09 1.56-.08l1.29-.469v1.356l-.257.043a8.45 8.45 0 0 1-4.018-.323Z"/>
+</svg></span>
+              <span style="font-size:13px;font-weight:600">PlayStation</span>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border-accent);border-radius:12px;padding:12px 20px;
+                        display:flex;align-items:center;gap:8px;animation:float 5s ease-in-out infinite;animation-delay:1s">
+              <span style="font-size:24px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-xbox" viewBox="0 0 16 16">
+  <path d="M7.202 15.967a8 8 0 0 1-3.552-1.26c-.898-.585-1.101-.826-1.101-1.306 0-.965 1.062-2.656 2.879-4.583C6.459 7.723 7.897 6.44 8.052 6.475c.302.068 2.718 2.423 3.622 3.531 1.43 1.753 2.088 3.189 1.754 3.829-.254.486-1.83 1.437-2.987 1.802-.954.301-2.207.429-3.239.33m-5.866-3.57C.589 11.253.212 10.127.03 8.497c-.06-.539-.038-.846.137-1.95.218-1.377 1.002-2.97 1.945-3.95.401-.417.437-.427.926-.263.595.2 1.23.638 2.213 1.528l.574.519-.313.385C4.056 6.553 2.52 9.086 1.94 10.653c-.315.852-.442 1.707-.306 2.063.091.24.007.15-.3-.319Zm13.101.195c.074-.36-.019-1.02-.238-1.687-.473-1.443-2.055-4.128-3.508-5.953l-.457-.575.494-.454c.646-.593 1.095-.948 1.58-1.25.381-.237.927-.448 1.161-.448.145 0 .654.528 1.065 1.104a8.4 8.4 0 0 1 1.343 3.102c.153.728.166 2.286.024 3.012a9.5 9.5 0 0 1-.6 1.893c-.179.393-.624 1.156-.82 1.404-.1.128-.1.127-.043-.148ZM7.335 1.952c-.67-.34-1.704-.705-2.276-.803a4 4 0 0 0-.759-.043c-.471.024-.45 0 .306-.358A7.8 7.8 0 0 1 6.47.128c.8-.169 2.306-.17 3.094-.005.85.18 1.853.552 2.418.9l.168.103-.385-.02c-.766-.038-1.88.27-3.078.853-.361.176-.676.316-.699.312a12 12 0 0 1-.654-.319Z"/>
+</svg></span>
+              <span style="font-size:13px;font-weight:600">Xbox</span>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border-accent);border-radius:12px;padding:12px 20px;
+                        display:flex;align-items:center;gap:8px;animation:float 5s ease-in-out infinite;animation-delay:2s">
+              <span style="font-size:24px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+  <path d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.14 4.14 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979m4.675.269a1.62 1.62 0 0 0-1.113-1.034 1.61 1.61 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.63 1.63 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053M3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256"/>
+  <path d="M3.425.053a4.14 4.14 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.85 2.85 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z"/>
+</svg></span>
+              <span style="font-size:13px;font-weight:600">Nintendo</span>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border-accent);border-radius:12px;padding:12px 20px;
+                        display:flex;align-items:center;gap:8px;animation:float 5s ease-in-out infinite;animation-delay:3s">
+              <span style="font-size:24px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
+  <path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.2 2.2 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.22 2.22 0 0 1-1.312-1.568L.33 10.333Z"/>
+  <path d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.7 1.7 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027m2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048"/>
+</svg></span>
+              <span style="font-size:13px;font-weight:600">PC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding:80px 0;position:relative;z-index:1;background:linear-gradient(180deg, transparent, rgba(10,10,20,0.8))">
+  <div class="container">
+    <h2 class="text-center section-title justify-content-center mb-5" style="font-size:28px">
+      ¿Por qué <span class="text-gradient-blue">GameGalaxy</span>?
+    </h2>
+    <div class="row g-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-card blue text-center" style="padding:32px 20px">
+          <div style="font-size:48px;margin-bottom:16px">⚡</div>
+          <h5 style="font-family:'Orbitron',monospace;font-size:14px;margin-bottom:8px">Entrega Digital</h5>
+          <p style="color:var(--text-muted);font-size:13px">Recibe tus claves de activación al instante.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-card orange text-center" style="padding:32px 20px">
+          <div style="font-size:48px;margin-bottom:16px">🔒</div>
+          <h5 style="font-family:'Orbitron',monospace;font-size:14px;margin-bottom:8px">100% Seguro</h5>
+          <p style="color:var(--text-muted);font-size:13px">Plataforma segura con claves originales.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-card purple text-center" style="padding:32px 20px">
+          <div style="font-size:48px;margin-bottom:16px">🎯</div>
+          <h5 style="font-family:'Orbitron',monospace;font-size:14px;margin-bottom:8px">Packs Exclusivos</h5>
+          <p style="color:var(--text-muted);font-size:13px">Colecciones por género con precios especiales.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-card green text-center" style="padding:32px 20px">
+          <div style="font-size:48px;margin-bottom:16px">🌌</div>
+          <h5 style="font-family:'Orbitron',monospace;font-size:14px;margin-bottom:8px">Recomendaciones</h5>
+          <p style="color:var(--text-muted);font-size:13px">Descubre nuevos títulos según tus gustos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA ADMIN -->
+<section style="padding:60px 0;position:relative;z-index:1">
+  <div class="container">
+    <div style="background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--radius-lg);padding:40px;
+                display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;
+                background-image:radial-gradient(ellipse at right, rgba(123,47,255,0.1), transparent)">
+      <div>
+        <h3 style="font-family:'Orbitron',monospace;font-size:20px;margin-bottom:8px">¿Eres administrador?</h3>
+        <p style="color:var(--text-secondary)">Accede al panel de gestión para administrar el catálogo y ver estadísticas.</p>
+      </div>
+      <div class="d-flex gap-3">
+        <a href="login-admin.html" class="btn-gg-secondary" style="text-decoration:none">Iniciar como Admin</a>
+        <a href="register-admin.html" class="btn-gg-primary" style="text-decoration:none">Registrar Admin</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid var(--border-accent);padding:40px 0;position:relative;z-index:1">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4">
+        <img src="/img/image1.png" style="height:40px" width="150px" alt="GameGalaxy" onerror="this.style.display='none'">
+        <p style="color:var(--text-muted);font-size:13px;margin-top:8px">Tu universo gamer en un solo lugar.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div style="display:flex;gap:20px;justify-content:center">
+          <a href="usuario/tienda.html" style="color:var(--text-muted);text-decoration:none;font-size:14px">Tienda</a>
+          <a href="login-user.html" style="color:var(--text-muted);text-decoration:none;font-size:14px">Login</a>
+          <a href="login-admin.html" style="color:var(--text-muted);text-decoration:none;font-size:14px">Admin</a>
+        </div>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <p style="color:var(--text-muted);font-size:12px">© 2025 GameGalaxy. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario — GameGalaxy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<div class="auth-wrapper">
+  <div class="auth-container" style="max-width:480px">
+    <div class="auth-logo">
+      <img src="img/image.png" alt="GameGalaxy" style="height:52px;width:180px;object-fit:contain;object-position:center" onerror="this.style.display='none'">
+      <div style="margin-top:12px;font-family:'Orbitron',monospace;font-size:12px;letter-spacing:3px;color:var(--text-muted)">GAMEGALAXY</div>
+    </div>
+
+    <h2 class="auth-title text-gradient-blue">Crear Cuenta</h2>
+    <p class="auth-subtitle">Únete a la comunidad gamer</p>
+
+    <div id="formError" class="alert-gg alert-gg-danger mb-3" style="display:none"></div>
+    <div id="formSuccess" class="alert-gg alert-gg-success mb-3" style="display:none"></div>
+
+    <form class="form-gg" id="registerForm" onsubmit="handleRegister(event)">
+      <div class="mb-3">
+        <label class="form-label">Nombre completo</label>
+        <div style="position:relative">
+          <i class="bi bi-person" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);z-index:1"></i>
+          <input type="text" class="form-control" id="name" placeholder="Tu nombre" style="padding-left:44px" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Correo electrónico</label>
+        <div style="position:relative">
+          <i class="bi bi-envelope" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);z-index:1"></i>
+          <input type="email" class="form-control" id="email" placeholder="tu@correo.com" style="padding-left:44px" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <div style="position:relative">
+          <i class="bi bi-lock" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);z-index:1"></i>
+          <input type="password" class="form-control" id="password" placeholder="Mínimo 8 caracteres" style="padding-left:44px" required oninput="checkPw(this.value)">
+          <button type="button" onclick="togglePw()"
+                  style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;z-index:1">
+            <i class="bi bi-eye" id="pwIcon"></i>
+          </button>
+        </div>
+        <!-- Password strength -->
+        <div style="margin-top:8px" id="pwStrength">
+          <div style="display:flex;gap:4px;margin-bottom:4px">
+            <div class="pw-bar" id="bar1" style="height:3px;flex:1;border-radius:2px;background:var(--border-accent);transition:background 0.3s"></div>
+            <div class="pw-bar" id="bar2" style="height:3px;flex:1;border-radius:2px;background:var(--border-accent);transition:background 0.3s"></div>
+            <div class="pw-bar" id="bar3" style="height:3px;flex:1;border-radius:2px;background:var(--border-accent);transition:background 0.3s"></div>
+            <div class="pw-bar" id="bar4" style="height:3px;flex:1;border-radius:2px;background:var(--border-accent);transition:background 0.3s"></div>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted)">
+            <span id="req1" class="me-2">✗ 8+ chars</span>
+            <span id="req2" class="me-2">✗ Mayúscula</span>
+            <span id="req3" class="me-2">✗ Número</span>
+            <span id="req4">✗ Especial</span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Confirmar contraseña</label>
+        <div style="position:relative">
+          <i class="bi bi-shield-lock" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);z-index:1"></i>
+          <input type="password" class="form-control" id="confirmPassword" placeholder="Repite tu contraseña" style="padding-left:44px" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-gg-primary w-100" style="padding:13px;font-size:15px">
+        <i class="bi bi-person-check me-2"></i> Crear Cuenta
+      </button>
+    </form>
+
+    <div class="auth-divider"><span>ya tienes cuenta</span></div>
+
+    <div class="text-center">
+      <a href="login-user.html" class="btn-gg-secondary w-100" style="text-decoration:none;display:block;text-align:center;padding:12px">
+        <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar Sesión
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  if (Storage.getCurrentUser()) window.location.href = 'usuario/tienda.html';
+
+  function handleRegister(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirmPassword').value;
+
+    hideFormError('formError');
+    document.getElementById('formSuccess').style.display = 'none';
+
+    if (password !== confirm) {
+      showFormError('formError', 'Las contraseñas no coinciden.');
+      return;
+    }
+
+    const result = Auth.registerUser(name, email, password);
+
+    if (result.ok) {
+      document.getElementById('formSuccess').textContent = result.msg + ' Redirigiendo...';
+      document.getElementById('formSuccess').style.display = 'block';
+      setTimeout(() => window.location.href = 'login-user.html', 1500);
+    } else {
+      showFormError('formError', result.msg);
+    }
+  }
+
+  function togglePw() {
+    const input = document.getElementById('password');
+    const icon = document.getElementById('pwIcon');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'bi bi-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'bi bi-eye';
+    }
+  }
+
+  function checkPw(pw) {
+    const checks = [
+      pw.length >= 8,
+      /[A-Z]/.test(pw),
+      /[0-9]/.test(pw),
+      /[^A-Za-z0-9]/.test(pw)
+    ];
+    const colors = ['var(--danger)', 'var(--warning)', 'var(--accent-blue)', 'var(--success)'];
+    const passed = checks.filter(Boolean).length;
+
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById('bar' + i).style.background = i <= passed ? colors[passed - 1] : 'var(--border-accent)';
+    }
+
+    const ids = ['req1', 'req2', 'req3', 'req4'];
+    const labels = ['8+ chars', 'Mayúscula', 'Número', 'Especial'];
+    checks.forEach((ok, i) => {
+      const el = document.getElementById(ids[i]);
+      el.textContent = (ok ? '✓ ' : '✗ ') + labels[i];
+      el.style.color = ok ? 'var(--success)' : 'var(--text-muted)';
+    });
+  }
+</script>
+</body>
+</html>

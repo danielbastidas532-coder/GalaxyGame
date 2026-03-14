@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago — GameGalaxy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<nav class="navbar-gg navbar">
+  <div class="container px-4">
+    <a class="navbar-brand" href="/usuario/tienda.html">
+      <img src="/img/image1.png" class="brand-logo" alt="GameGalaxy" onerror="this.style.display='none'">
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <!-- Progress -->
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted)">
+        <span style="color:var(--success)">✓ Tienda</span>
+        <span>→</span>
+        <span style="color:var(--success)">✓ Carrito</span>
+        <span>→</span>
+        <span style="color:var(--accent-blue);font-weight:700">Pago</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5" style="position:relative;z-index:1">
+  <!-- FORM -->
+  <div id="paymentForm">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <h1 style="font-family:'Orbitron',monospace;font-size:24px;margin-bottom:32px">
+          💳 Finalizar <span class="text-gradient-blue">Compra</span>
+        </h1>
+
+        <div class="row g-4">
+          <!-- LEFT: Form -->
+          <div class="col-lg-7">
+            <div class="bg-card-gg">
+              <h5 style="font-family:'Orbitron',monospace;font-size:15px;margin-bottom:20px">
+                <i class="bi bi-person-fill me-2" style="color:var(--accent-blue)"></i>
+                Datos de Entrega
+              </h5>
+
+              <form class="form-gg" id="checkoutForm" onsubmit="Pagos.processPayment(); return false;">
+                <div class="mb-3">
+                  <label class="form-label">Nombre completo *</label>
+                  <div style="position:relative">
+                    <i class="bi bi-person" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);z-index:1"></i>
+                    <input type="text" class="form-control" id="payName" placeholder="Tu nombre completo" style="padding-left:44px" required>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Correo electrónico *</label>
+                  <div style="position:relative">
+                    <i class="bi bi-envelope" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);z-index:1"></i>
+                    <input type="email" class="form-control" id="payEmail" placeholder="correo@ejemplo.com" style="padding-left:44px" required>
+                  </div>
+                  <div style="font-size:11px;color:var(--text-muted);margin-top:4px">
+                    <i class="bi bi-info-circle me-1"></i> Aquí recibirás tus claves de activación
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label">Número de teléfono *</label>
+                  <div style="position:relative">
+                    <i class="bi bi-telephone" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);z-index:1"></i>
+                    <input type="tel" class="form-control" id="payPhone" placeholder="+52 555 123 4567" style="padding-left:44px" required>
+                  </div>
+                </div>
+
+                <!-- Trust badges -->
+                <div style="background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.15);border-radius:8px;padding:16px;margin-bottom:20px">
+                  <div class="d-flex gap-3 flex-wrap">
+                    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--success)">
+                      <i class="bi bi-shield-check"></i> Compra segura
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--success)">
+                      <i class="bi bi-lightning-charge"></i> Entrega inmediata
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--success)">
+                      <i class="bi bi-key"></i> Claves originales
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn-gg-primary w-100" style="padding:15px;font-size:16px">
+                  <i class="bi bi-check-circle me-2"></i> Confirmar Compra
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- RIGHT: Order Summary -->
+          <div class="col-lg-5">
+            <div class="checkout-summary">
+              <h5 style="font-family:'Orbitron',monospace;font-size:14px;margin-bottom:16px">
+                <i class="bi bi-bag me-2" style="color:var(--accent-orange)"></i>
+                Resumen del pedido
+              </h5>
+              <div id="orderItems"></div>
+              <div style="margin-top:16px" id="orderTotal"></div>
+            </div>
+
+            <div style="background:rgba(123,47,255,0.05);border:1px solid rgba(123,47,255,0.1);border-radius:8px;padding:16px;margin-top:16px">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0">
+                <i class="bi bi-info-circle me-2" style="color:#aa88ff"></i>
+                No necesitas tarjeta de crédito. Solo confirma tus datos y recibirás tus juegos de inmediato.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="paymentSuccess" style="display:none">
+    <div class="checkout-success">
+      <div class="success-icon">🎮</div>
+      <h2 style="font-family:'Orbitron',monospace;font-size:28px;margin-bottom:8px">
+        <span class="text-gradient-blue">¡Compra exitosa!</span>
+      </h2>
+      <p style="color:var(--text-secondary);font-size:16px;margin-bottom:24px">
+        ¡Gracias por tu compra en GameGalaxy! Tus juegos están listos.
+      </p>
+      <div class="bg-card-gg text-left d-inline-block" style="min-width:300px;text-align:left;margin-bottom:32px" id="successDetails"></div>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <a href="tienda.html" class="btn-gg-primary" style="text-decoration:none">
+          <i class="bi bi-controller me-2"></i> Seguir comprando
+        </a>
+        <a href="../index.html" class="btn-gg-secondary" style="text-decoration:none">
+          <i class="bi bi-house me-2"></i> Inicio
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/pagos.js"></script>
+<script>
+  Auth.requireUser();
+  Pagos.init();
+</script>
+</body>
+</html>
